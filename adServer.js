@@ -5,20 +5,20 @@ const port = 7777;
 
 const app = express();
 
-var middleWare1 = (request, response, next) =>
+app.use((request, response, next) =>
 {
 	console.log("Request Headers:\n");
 	console.log(request.headers);
 	next();
-};
+});
 
-var middleWare2 = (request, response, next) =>
+app.use((request, response, next) =>
 {
 	request.randomNumber = Math.random();
 	next();
-};
+});
 
-var getFunction = (request, response) =>
+app.get("/", (request, response) =>
 {
 	var json =
 	{
@@ -28,9 +28,9 @@ var getFunction = (request, response) =>
 
 	console.log(request.url);
 	response.json(json);
-};
+});
 
-var listenFunction = (err) =>
+app.listen(port, (err) =>
 {
 	if (err)
 	{
@@ -38,9 +38,4 @@ var listenFunction = (err) =>
 	}
 
 	console.log(`Ad Server is listening on ${port}`);
-};
-
-app.use(middleWare1);
-app.use(middleWare2);
-app.get('/', getFunction);
-app.listen(port, listenFunction);
+});
