@@ -9,6 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "adServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rodrigo Gutierrez <rodrigo@mawari.co.jp>",
