@@ -1,31 +1,37 @@
+let currentOption = "corona";
+let currentLanguage = "en";
+
 function handleGetRequest(response)
 {
-    response.writeHead(200, { "Content-Type" : "text/plain" });
-    response.end("GET action was requested.");
+    data = { "option": currentOption, "language": currentLanguage };
+
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.write(JSON.stringify(data));
+    response.end();
 }
 
 function handlePostRequest(response)
 {
-    response.writeHead(200, { "Content-Type" : "text/plain" });
+    response.writeHead(200, { "Content-Type": "text/plain" });
     response.end("POST action was requested.");
 }
 
 function handlePutRequest(response)
 {
-    response.writeHead(200, { "Content-Type" : "text/plain" });
+    response.writeHead(200, { "Content-Type": "text/plain" });
     response.end("PUT action was requested.");
 }
 
 function handleDeleteRequest(response)
 {
-    response.writeHead(200, { "Content-Type" : "text/plain" });
+    response.writeHead(200, { "Content-Type": "text/plain" });
     response.end("DELETE action was requested.");
 }
 
 function handleBadRequest(response)
 {
     console.log("Unsupported HTTP method requested.\n")
-    response.writeHead(400, { "Content-Type" : "text/plain" });
+    response.writeHead(400, { "Content-Type": "text/plain" });
     response.end("Bad request.");
 }
 
