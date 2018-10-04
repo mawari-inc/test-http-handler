@@ -3,10 +3,10 @@ let currentLanguage = "en";
 
 function handleGetRequest(response)
 {
-    data = { "option": currentOption, "language": currentLanguage };
+    var responseData = { "option": currentOption, "language": currentLanguage };
 
     response.writeHead(200, { "Content-Type": "application/json" });
-    response.write(JSON.stringify(data));
+    response.write(JSON.stringify(responseData));
     response.end();
 }
 
@@ -31,8 +31,7 @@ function handlePostRequest(request, response)
         currentOption = requestData.option;
         currentLanguage = requestData.language;
 
-        response.writeHead(200, { "Content-Type": "text/plain" });
-        response.end("POST action successful.");
+        handleGetRequest(response);
     });
 }
 
