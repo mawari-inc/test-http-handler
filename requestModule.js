@@ -10,10 +10,30 @@ function handleGetRequest(response)
     response.end();
 }
 
-function handlePostRequest(response)
+function handlePostRequest(request, response)
 {
-    response.writeHead(200, { "Content-Type": "text/plain" });
-    response.end("POST action was requested.");
+    var requestBody = "";
+
+    request.on("data", function (data)
+    {
+        requestBody += data;
+        if (requestBody.length > 1e4)
+        {
+            response.writeHead(413, "Request Entity Too Large", { "Content-Type": "text/plain" });
+            response.end("Request Entity Too Large");
+        }
+    });
+
+    request.on("end", function ()
+    {
+        var requestData = JSON.parse(requestBody);
+
+        currentOption = requestData.option;
+        currentLanguage = requestData.language;
+
+        response.writeHead(200, { "Content-Type": "text/plain" });
+        response.end("POST action successful.");
+    });
 }
 
 function handlePutRequest(response)
@@ -31,7 +51,7 @@ function handleDeleteRequest(response)
 function handleBadRequest(response)
 {
     console.log("Unsupported HTTP method requested.\n")
-    response.writeHead(400, { "Content-Type": "text/plain" });
+    response.writeHead(400, "Bad Request", { "Content-Type": "text/plain" });
     response.end("Bad request.");
 }
 
@@ -43,7 +63,7 @@ exports.handleRequest = function (request, response)
         handleGetRequest(response);
         break;
         case "POST":
-        handlePostRequest(response);
+        handlePostRequest(request, response);
         break;
         case "PUT":
         handlePutRequest(response);
